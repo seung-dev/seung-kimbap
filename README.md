@@ -227,6 +227,14 @@ const root = createRoot(container);
 $ npm run loc
 ```
 
+##### 07. add seung
+
+```console
+$ mkdir -p src/seung/types
+$ vi src/seung/index.ts
+$ vi src/seung/types/default.d.ts
+```
+
 ### License
 
 MIT
