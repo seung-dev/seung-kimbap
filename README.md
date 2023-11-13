@@ -64,6 +64,12 @@ To learn more about **refine**, please check out the [Documentation](https://ref
 $ cp src refine-bak/src
 ```
 
+##### 01. npm install
+
+```console
+$ npm install
+```
+
 ### License
 
 MIT
