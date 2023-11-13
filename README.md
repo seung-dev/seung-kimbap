@@ -114,6 +114,12 @@ $ vi tsconfig.json
 }
 ```
 
+##### 04. add sass
+
+```console
+$ npm install -D sass
+```
+
 ### License
 
 MIT
