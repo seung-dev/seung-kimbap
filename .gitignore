@@ -1,19 +1,15 @@
-# dependencies
-/node_modules
+# directories
 /.pnp
-.pnp.js
-
-# testing
 /coverage
-
-# production
+/node_modules
 /build
 /dist
 
-# log
+# extensions
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
 # misc
 .DS_Store
+.pnp.js

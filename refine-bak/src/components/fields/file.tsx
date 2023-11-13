@@ -1,4 +1,5 @@
 import React from "react";
+
 import { UrlField } from "@refinedev/mui";
 import type { FileFieldProps } from "@refinedev/mui";
 
@@ -7,14 +8,10 @@ import type { FileFieldProps } from "@refinedev/mui";
  *
  * @see {@link https://refine.dev/docs/api-reference/mui/components/fields/file} for more details.
  */
-export const FileField: React.FC<FileFieldProps> = ({
-  title,
-  src,
-  ...rest
-}) => {
-  return (
-    <UrlField value={src} title={title} {...rest}>
-      {title ?? src}
-    </UrlField>
-  );
+export const FileField: React.FC<FileFieldProps> = ({ title, src, ...rest }) => {
+	return (
+		<UrlField value={src} title={title} {...rest}>
+			{title ?? src}
+		</UrlField>
+	);
 };

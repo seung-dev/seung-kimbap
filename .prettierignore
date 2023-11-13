@@ -1,0 +1,22 @@
+# directories
+.git/
+node_modules/
+build/
+dist/
+dist-ssr/
+.snapshots/
+
+# extensions
+*.DS_Store
+*.svg
+*.png
+*.lock
+*.md
+*.min.js
+
+# misc
+LICENSE
+.gitignore
+.eslintignore
+package.json
+package-lock.json

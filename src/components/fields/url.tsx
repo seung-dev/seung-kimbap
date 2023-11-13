@@ -1,7 +1,9 @@
 import React from "react";
+
+import type { UrlFieldProps } from "@refinedev/mui";
+
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
-import type { UrlFieldProps } from "@refinedev/mui";
 
 /**
  * This field lets you embed a link.It uses the {@link https://mui.com/material-ui/react-typography/#main-content `<Typography>` }
@@ -10,16 +12,12 @@ import type { UrlFieldProps } from "@refinedev/mui";
  *
  * @see {@link https://refine.dev/docs/api-reference/mui/components/fields/url} for more details.
  */
-export const UrlField: React.FC<UrlFieldProps> = ({
-  children,
-  value,
-  ...rest
-}) => {
-  return (
-    <Typography variant="body2">
-      <Link href={value} {...rest}>
-        {children ?? value}
-      </Link>
-    </Typography>
-  );
+export const UrlField: React.FC<UrlFieldProps> = ({ children, value, ...rest }) => {
+	return (
+		<Typography variant="body2">
+			<Link href={value} {...rest}>
+				{children ?? value}
+			</Link>
+		</Typography>
+	);
 };

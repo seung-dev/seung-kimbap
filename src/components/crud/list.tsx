@@ -1,18 +1,14 @@
 import React from "react";
-import {
-  useTranslate,
-  useUserFriendlyName,
-  useRefineContext,
-  useRouterType,
-  useResource,
-} from "@refinedev/core";
-import { CreateButton, Breadcrumb, CreateButtonProps } from "@refinedev/mui";
+
+import { useRefineContext, useResource, useRouterType, useTranslate, useUserFriendlyName } from "@refinedev/core";
+import { Breadcrumb, CreateButton, CreateButtonProps } from "@refinedev/mui";
+import type { ListProps } from "@refinedev/mui";
+
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardHeader from "@mui/material/CardHeader";
 import Typography from "@mui/material/Typography";
-import type { ListProps } from "@refinedev/mui";
 
 /**
  * `<List>` provides us a layout for displaying the page.
@@ -21,99 +17,81 @@ import type { ListProps } from "@refinedev/mui";
  * @see {@link https://refine.dev/docs/ui-frameworks/mui/components/basic-views/list} for more details.
  */
 export const List: React.FC<ListProps> = ({
-  title,
-  canCreate,
-  children,
-  createButtonProps: createButtonPropsFromProps,
-  resource: resourceFromProps,
-  breadcrumb: breadcrumbFromProps,
-  wrapperProps,
-  headerProps,
-  contentProps,
-  headerButtonProps,
-  headerButtons,
+	title,
+	canCreate,
+	children,
+	createButtonProps: createButtonPropsFromProps,
+	resource: resourceFromProps,
+	breadcrumb: breadcrumbFromProps,
+	wrapperProps,
+	headerProps,
+	contentProps,
+	headerButtonProps,
+	headerButtons,
 }) => {
-  const translate = useTranslate();
-  const { options: { breadcrumb: globalBreadcrumb } = {} } = useRefineContext();
-  const getUserFriendlyName = useUserFriendlyName();
+	const translate = useTranslate();
+	const { options: { breadcrumb: globalBreadcrumb } = {} } = useRefineContext();
+	const getUserFriendlyName = useUserFriendlyName();
 
-  const routerType = useRouterType();
+	const routerType = useRouterType();
 
-  const { resource, identifier } = useResource(resourceFromProps);
+	const { resource, identifier } = useResource(resourceFromProps);
 
-  const isCreateButtonVisible =
-    canCreate ??
-    ((resource?.canCreate ?? !!resource?.create) || createButtonPropsFromProps);
+	const isCreateButtonVisible = canCreate ?? ((resource?.canCreate ?? !!resource?.create) || createButtonPropsFromProps);
 
-  const breadcrumb =
-    typeof breadcrumbFromProps === "undefined"
-      ? globalBreadcrumb
-      : breadcrumbFromProps;
+	const breadcrumb = typeof breadcrumbFromProps === "undefined" ? globalBreadcrumb : breadcrumbFromProps;
 
-  const breadcrumbComponent =
-    typeof breadcrumb !== "undefined" ? (
-      <>{breadcrumb}</> ?? undefined
-    ) : (
-      <Breadcrumb />
-    );
+	const breadcrumbComponent = typeof breadcrumb !== "undefined" ? <>{breadcrumb}</> ?? undefined : <Breadcrumb />;
 
-  const createButtonProps: CreateButtonProps | undefined = isCreateButtonVisible
-    ? {
-        resource: routerType === "legacy" ? resource?.route : identifier,
-        ...createButtonPropsFromProps,
-      }
-    : undefined;
+	const createButtonProps: CreateButtonProps | undefined = isCreateButtonVisible
+		? {
+				resource: routerType === "legacy" ? resource?.route : identifier,
+				...createButtonPropsFromProps,
+		  }
+		: undefined;
 
-  const defaultHeaderButtons = isCreateButtonVisible ? (
-    <CreateButton {...createButtonProps} />
-  ) : null;
+	const defaultHeaderButtons = isCreateButtonVisible ? <CreateButton {...createButtonProps} /> : null;
 
-  return (
-    <Card {...(wrapperProps ?? {})}>
-      {breadcrumbComponent}
-      <CardHeader
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          ".MuiCardHeader-action": {
-            margin: 0,
-            alignSelf: "center",
-          },
-        }}
-        title={
-          title ?? (
-            <Typography
-              variant="h5"
-              className={RefinePageHeaderClassNames.Title}
-            >
-              {translate(
-                `${identifier}.titles.list`,
-                getUserFriendlyName(
-                  resource?.meta?.label ??
-                    resource?.options?.label ??
-                    resource?.label ??
-                    identifier,
-                  "plural"
-                )
-              )}
-            </Typography>
-          )
-        }
-        action={
-          <Box display="flex" gap="16px" {...headerButtonProps}>
-            {headerButtons
-              ? typeof headerButtons === "function"
-                ? headerButtons({
-                    defaultButtons: defaultHeaderButtons,
-                    createButtonProps,
-                  })
-                : headerButtons
-              : defaultHeaderButtons}
-          </Box>
-        }
-        {...(headerProps ?? {})}
-      />
-      <CardContent {...(contentProps ?? {})}>{children}</CardContent>
-    </Card>
-  );
+	return (
+		<Card {...(wrapperProps ?? {})}>
+			{breadcrumbComponent}
+			<CardHeader
+				sx={{
+					display: "flex",
+					flexWrap: "wrap",
+					".MuiCardHeader-action": {
+						margin: 0,
+						alignSelf: "center",
+					},
+				}}
+				title={
+					title ?? (
+						<Typography variant="h5" className={RefinePageHeaderClassNames.Title}>
+							{translate(
+								`${identifier}.titles.list`,
+								getUserFriendlyName(
+									resource?.meta?.label ?? resource?.options?.label ?? resource?.label ?? identifier,
+									"plural",
+								),
+							)}
+						</Typography>
+					)
+				}
+				action={
+					<Box display="flex" gap="16px" {...headerButtonProps}>
+						{headerButtons
+							? typeof headerButtons === "function"
+								? headerButtons({
+										defaultButtons: defaultHeaderButtons,
+										createButtonProps,
+								  })
+								: headerButtons
+							: defaultHeaderButtons}
+					</Box>
+				}
+				{...(headerProps ?? {})}
+			/>
+			<CardContent {...(contentProps ?? {})}>{children}</CardContent>
+		</Card>
+	);
 };

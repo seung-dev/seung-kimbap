@@ -1,8 +1,11 @@
-import React from "react";
-import Typography from "@mui/material/Typography";
 import dayjs from "dayjs";
 import LocalizedFormat from "dayjs/plugin/localizedFormat";
+
+import React from "react";
+
 import type { DateFieldProps } from "@refinedev/mui";
+
+import Typography from "@mui/material/Typography";
 
 dayjs.extend(LocalizedFormat);
 
@@ -14,17 +17,12 @@ const defaultLocale = dayjs.locale();
  *
  * @see {@link https://refine.dev/docs/api-reference/mui/components/fields/date} for more details.
  */
-export const DateField: React.FC<DateFieldProps> = ({
-  value,
-  locales,
-  format: dateFormat = "L",
-  ...rest
-}) => {
-  return (
-    <Typography variant="body2" {...rest}>
-      {dayjs(value)
-        .locale(locales || defaultLocale)
-        .format(dateFormat)}
-    </Typography>
-  );
+export const DateField: React.FC<DateFieldProps> = ({ value, locales, format: dateFormat = "L", ...rest }) => {
+	return (
+		<Typography variant="body2" {...rest}>
+			{dayjs(value)
+				.locale(locales || defaultLocale)
+				.format(dateFormat)}
+		</Typography>
+	);
 };

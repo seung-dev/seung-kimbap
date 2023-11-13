@@ -1,8 +1,10 @@
 import React from "react";
+
 import { useTranslate } from "@refinedev/core";
+import type { SaveButtonProps } from "@refinedev/mui";
+
 import SaveOutlined from "@mui/icons-material/SaveOutlined";
 import LoadingButton from "@mui/lab/LoadingButton";
-import type { SaveButtonProps } from "@refinedev/mui";
 
 /**
  * `<SaveButton>` uses Material UI {@link https://mui.com/material-ui/api/loading-button/#main-content `<LoadingButton>`} component.
@@ -10,29 +12,20 @@ import type { SaveButtonProps } from "@refinedev/mui";
  *
  * @see {@link https://refine.dev/docs/api-reference/mui/components/buttons/save-button} for more details.
  */
-export const SaveButton: React.FC<SaveButtonProps> = ({
-  hideText = false,
-  svgIconProps,
-  children,
-  ...rest
-}) => {
-  const translate = useTranslate();
+export const SaveButton: React.FC<SaveButtonProps> = ({ hideText = false, svgIconProps, children, ...rest }) => {
+	const translate = useTranslate();
 
-  const { sx, ...restProps } = rest;
+	const { sx, ...restProps } = rest;
 
-  return (
-    <LoadingButton
-      startIcon={!hideText && <SaveOutlined {...svgIconProps} />}
-      sx={{ minWidth: 0, ...sx }}
-      variant="contained"
-      className={RefineButtonClassNames.SaveButton}
-      {...restProps}
-    >
-      {hideText ? (
-        <SaveOutlined fontSize="small" {...svgIconProps} />
-      ) : (
-        children ?? translate("buttons.save", "Save")
-      )}
-    </LoadingButton>
-  );
+	return (
+		<LoadingButton
+			startIcon={!hideText && <SaveOutlined {...svgIconProps} />}
+			sx={{ minWidth: 0, ...sx }}
+			variant="contained"
+			className={RefineButtonClassNames.SaveButton}
+			{...restProps}
+		>
+			{hideText ? <SaveOutlined fontSize="small" {...svgIconProps} /> : children ?? translate("buttons.save", "Save")}
+		</LoadingButton>
+	);
 };

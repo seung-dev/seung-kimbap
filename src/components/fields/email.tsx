@@ -1,7 +1,9 @@
 import React from "react";
+
+import type { EmailFieldProps } from "@refinedev/mui";
+
 import Link from "@mui/material/Link";
 import Typography from "@mui/material/Typography";
-import type { EmailFieldProps } from "@refinedev/mui";
 
 /**
  * This field is used to display email values. It uses the {@link https://mui.com/material-ui/react-typography/#main-content `<Typography>` }
@@ -10,11 +12,11 @@ import type { EmailFieldProps } from "@refinedev/mui";
  * @see {@link https://refine.dev/docs/api-reference/mui/components/fields/email} for more details.
  */
 export const EmailField: React.FC<EmailFieldProps> = ({ value, ...rest }) => {
-  return (
-    <Typography variant="body2">
-      <Link href={`mailto:${value}`} {...rest}>
-        {value}
-      </Link>
-    </Typography>
-  );
+	return (
+		<Typography variant="body2">
+			<Link href={`mailto:${value}`} {...rest}>
+				{value}
+			</Link>
+		</Typography>
+	);
 };

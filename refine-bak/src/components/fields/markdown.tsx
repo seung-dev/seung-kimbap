@@ -1,6 +1,8 @@
+import gfm from "remark-gfm";
+
 import React from "react";
 import ReactMarkdown from "react-markdown";
-import gfm from "remark-gfm";
+
 import type { MarkdownFieldProps } from "@refinedev/mui";
 
 /**
@@ -9,5 +11,5 @@ import type { MarkdownFieldProps } from "@refinedev/mui";
  * @see {@link https://refine.dev/docs/api-reference/mui/components/fields/markdown} for more details.
  */
 export const MarkdownField: React.FC<MarkdownFieldProps> = ({ value = "" }) => {
-  return <ReactMarkdown plugins={[gfm]}>{value}</ReactMarkdown>;
+	return <ReactMarkdown plugins={[gfm]}>{value}</ReactMarkdown>;
 };

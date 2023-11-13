@@ -1,17 +1,19 @@
 import React, { useContext } from "react";
+
 import {
-  useCan,
-  useNavigation,
-  useTranslate,
-  useResource,
-  useRouterContext,
-  useRouterType,
-  useLink,
-  AccessControlContext,
+	AccessControlContext,
+	useCan,
+	useLink,
+	useNavigation,
+	useResource,
+	useRouterContext,
+	useRouterType,
+	useTranslate,
 } from "@refinedev/core";
+import type { ShowButtonProps } from "@refinedev/mui";
+
 import VisibilityOutlined from "@mui/icons-material/VisibilityOutlined";
 import Button from "@mui/material/Button";
-import type { ShowButtonProps } from "@refinedev/mui";
 
 /**
  * `<ShowButton>` uses uses Material UI {@link https://mui.com/components/buttons/ `<Button>`} component.
@@ -21,99 +23,86 @@ import type { ShowButtonProps } from "@refinedev/mui";
  * @see {@link https://refine.dev/docs/api-reference/mui/components/buttons/show-button} for more details.
  */
 export const ShowButton: React.FC<ShowButtonProps> = ({
-  resource: resourceNameFromProps,
-  resourceNameOrRouteName,
-  recordItemId,
-  hideText = false,
-  accessControl,
-  svgIconProps,
-  meta,
-  children,
-  onClick,
-  ...rest
+	resource: resourceNameFromProps,
+	resourceNameOrRouteName,
+	recordItemId,
+	hideText = false,
+	accessControl,
+	svgIconProps,
+	meta,
+	children,
+	onClick,
+	...rest
 }) => {
-  const accessControlContext = useContext(AccessControlContext);
+	const accessControlContext = useContext(AccessControlContext);
 
-  const accessControlEnabled =
-    accessControl?.enabled ??
-    accessControlContext.options.buttons.enableAccessControl;
+	const accessControlEnabled = accessControl?.enabled ?? accessControlContext.options.buttons.enableAccessControl;
 
-  const hideIfUnauthorized =
-    accessControl?.hideIfUnauthorized ??
-    accessControlContext.options.buttons.hideIfUnauthorized;
-  const { showUrl: generateShowUrl } = useNavigation();
-  const routerType = useRouterType();
-  const Link = useLink();
-  const { Link: LegacyLink } = useRouterContext();
+	const hideIfUnauthorized = accessControl?.hideIfUnauthorized ?? accessControlContext.options.buttons.hideIfUnauthorized;
+	const { showUrl: generateShowUrl } = useNavigation();
+	const routerType = useRouterType();
+	const Link = useLink();
+	const { Link: LegacyLink } = useRouterContext();
 
-  const ActiveLink = routerType === "legacy" ? LegacyLink : Link;
+	const ActiveLink = routerType === "legacy" ? LegacyLink : Link;
 
-  const translate = useTranslate();
+	const translate = useTranslate();
 
-  const { id, resource } = useResource(
-    resourceNameFromProps ?? resourceNameOrRouteName
-  );
+	const { id, resource } = useResource(resourceNameFromProps ?? resourceNameOrRouteName);
 
-  const { data } = useCan({
-    resource: resource?.name,
-    action: "show",
-    params: { id: recordItemId ?? id, resource },
-    queryOptions: {
-      enabled: accessControlEnabled,
-    },
-  });
+	const { data } = useCan({
+		resource: resource?.name,
+		action: "show",
+		params: { id: recordItemId ?? id, resource },
+		queryOptions: {
+			enabled: accessControlEnabled,
+		},
+	});
 
-  const disabledTitle = () => {
-    if (data?.can) return "";
-    else if (data?.reason) return data.reason;
-    else
-      return translate(
-        "buttons.notAccessTitle",
-        "You don't have permission to access"
-      );
-  };
+	const disabledTitle = () => {
+		if (data?.can) return "";
+		else if (data?.reason) return data.reason;
+		else return translate("buttons.notAccessTitle", "You don't have permission to access");
+	};
 
-  const showUrl =
-    resource && (recordItemId || id)
-      ? generateShowUrl(resource, recordItemId! ?? id!, meta)
-      : "";
+	const showUrl = resource && (recordItemId || id) ? generateShowUrl(resource, recordItemId! ?? id!, meta) : "";
 
-  const { sx, ...restProps } = rest;
+	const { sx, ...restProps } = rest;
 
-  if (accessControlEnabled && hideIfUnauthorized && !data?.can) {
-    return null;
-  }
+	if (accessControlEnabled && hideIfUnauthorized && !data?.can) {
+		return null;
+	}
 
-  return (
-    <ActiveLink
-      to={showUrl}
-      replace={false}
-      onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        if (data?.can === false) {
-          e.preventDefault();
-          return;
-        }
-        if (onClick) {
-          e.preventDefault();
-          onClick(e);
-        }
-      }}
-      style={{ textDecoration: "none" }}
-    >
-      <Button
-        disabled={data?.can === false}
-        startIcon={!hideText && <VisibilityOutlined {...svgIconProps} />}
-        title={disabledTitle()}
-        sx={{ minWidth: 0, ...sx }}
-        className={RefineButtonClassNames.ShowButton}
-        {...restProps}
-      >
-        {hideText ? (
-          <VisibilityOutlined fontSize="small" {...svgIconProps} />
-        ) : (
-          children ?? translate("buttons.show", "Show")
-        )}
-      </Button>
-    </ActiveLink>
-  );
+	return (
+		<ActiveLink
+			to={showUrl}
+			replace={false}
+			onClick={(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+				if (data?.can === false) {
+					e.preventDefault();
+					return;
+				}
+				if (onClick) {
+					e.preventDefault();
+					onClick(e);
+				}
+			}}
+			style={{ textDecoration: "none" }}
+		>
+			<Button
+				disabled={data?.can === false}
+				startIcon={!hideText && <VisibilityOutlined {...svgIconProps} />}
+				title={disabledTitle()}
+				sx={{ minWidth: 0, ...sx }}
+				className={RefineButtonClassNames.ShowButton}
+				{...restProps}
+			>
+				{hideText ? (
+					<VisibilityOutlined fontSize="small" {...svgIconProps} />
+				) : (
+					children ?? translate("buttons.show", "Show")
+				)}
+			</Button>
+		</ActiveLink>
+	);
 };
