@@ -10,7 +10,7 @@ const default_pagination: SSearchT = { page_no: 1, page_size: 10 };
 
 const s_default: SDefaultT = { search_options: default_pagination };
 
-const SDefault = createContext<SDefaultT>({} as SDefaultT);
+export const SDefault = createContext<SDefaultT>({} as SDefaultT);
 
 export const SDefaultV = ({ children }: PropsWithChildren) => {
 	return <SDefault.Provider value={s_default}>{children}</SDefault.Provider>;

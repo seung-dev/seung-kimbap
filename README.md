@@ -232,7 +232,7 @@ $ npm run loc
 ```console
 $ mkdir -p src/seung/types
 $ vi src/seung/index.ts
-$ vi src/seung/types/default.d.ts
+$ vi src/seung/types/form.d.ts
 ```
 
 ### License
