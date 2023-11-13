@@ -60,14 +60,18 @@ To learn more about **refine**, please check out the [Documentation](https://ref
 
 [https://refine.new/projects](https://refine.new/projects)
 
-```console
-$ cp src refine-bak/src
-```
-
 ##### 01. npm install
 
 ```console
 $ npm install
+```
+
+##### 02. refine swizzle
+
+```console
+$ npm run refine swizzle
+$ mkdir -p refine-bak/swizzle
+$ cp src refine-bak/src
 ```
 
 ### License
