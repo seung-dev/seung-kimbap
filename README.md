@@ -124,6 +124,30 @@ $ npm install -D sass
 
 ```console
 $ npm install -D @trivago/prettier-plugin-sort-imports
+$ vi .prettierignore
+# directories
+.git/
+node_modules/
+build/
+dist/
+dist-ssr/
+.snapshots/
+
+# extensions
+*.DS_Store
+*.svg
+*.png
+*.lock
+*.md
+*.min.js
+
+# misc
+LICENSE
+.gitignore
+.eslintignore
+package.json
+package-lock.json
+
 $ vi .prettierrc.cjs
 module.exports = {
 	printWidth: 128, // 80(default)
@@ -167,31 +191,40 @@ module.exports = {
 	],
 };
 
-$ vi .prettierignore
-# directories
-.git/
-node_modules/
-build/
-dist/
-dist-ssr/
-.snapshots/
-
-# extensions
-*.DS_Store
-*.svg
-*.png
-*.lock
-*.md
-*.min.js
-
-# misc
-LICENSE
-.gitignore
-.eslintignore
-package.json
-package-lock.json
-
 $ npx prettier --write .
+```
+
+##### 06. add environment
+
+```console
+$ vi .env
+VITE_APP_NAME=seung-kimbap
+VITE_APP_ROOT_CLASS=seung
+
+$ vi .env.loc
+$ vi .env.dev
+$ vi .env.ops
+$ vi package.json
+{
+  ...
+  "scripts": {
+    "loc": "refine dev --mode loc --port 11006 --host 127.0.0.1",
+    ...
+  },
+  ...
+}
+
+$ vi /src/index.tsx
+...
+const container = document.getElementById("root") as HTMLElement;
+
+const app_root_class = import.meta.env.VITE_APP_ROOT_CLASS;
+container.setAttribute("class", app_root_class);
+
+const root = createRoot(container);
+...
+
+$ npm run loc
 ```
 
 ### License

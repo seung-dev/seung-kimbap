@@ -47,6 +47,7 @@
     "vite-tsconfig-paths": "^4.2.1"
   },
   "scripts": {
+    "loc": "refine dev --mode loc --port 11006 --host 127.0.0.1",
     "dev": "refine dev",
     "build": "tsc && refine build",
     "preview": "refine start",
