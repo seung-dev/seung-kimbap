@@ -11,7 +11,7 @@ interface SThemeT {
 
 export const STheme = createContext<SThemeT>({} as SThemeT);
 
-export const SThemeV = ({ children }: PropsWithChildren) => {
+export const SThemeP = ({ children }: PropsWithChildren) => {
 	const current_theme = localStorage.getItem("theme");
 
 	const is_dark = window?.matchMedia("(prefers-color-scheme: dark)").matches;

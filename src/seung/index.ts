@@ -1,1 +1,1 @@
-export type { SSearchT } from "./types/form";
+export const version: string = "1.0.0";

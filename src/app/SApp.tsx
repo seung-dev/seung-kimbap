@@ -14,14 +14,23 @@ import GlobalStyles from "@mui/material/GlobalStyles";
 import { authProvider } from "@/authProvider";
 import { AppIcon } from "@/components/app-icon";
 import { Header } from "@/components/header";
+import { SDefaultP, SThemeP } from "@/config";
 import { BlogPostCreate, BlogPostEdit, BlogPostList, BlogPostShow } from "@/pages/blog-posts";
 import { ForgotPassword } from "@/pages/forgotPassword";
 import { Login } from "@/pages/login";
 import { Register } from "@/pages/register";
 
-import { SDefaultV, SThemeV } from "@app/layout";
+import { s_default } from "./SDefault";
+import { s_nav } from "./SNav";
 
 function SApp() {
+	const run_mode = import.meta.env.MODE;
+	const base_url = import.meta.env.BASE_URL;
+	const app_name = import.meta.env.VITE_APP_NAME;
+	const proxy_url = import.meta.env.VITE_PROXY_URL;
+	const storage_profile_name = import.meta.env.VITE_STORAGE_PROFILE_NAME;
+	const signin_path = import.meta.env.VITE_SIGNIN_PATH;
+
 	const { t, i18n } = useTranslation();
 
 	const i18nProvider = {
@@ -33,36 +42,39 @@ function SApp() {
 	return (
 		<BrowserRouter>
 			<RefineKbarProvider>
-				<SDefaultV>
-					<SThemeV>
+				<SDefaultP value={s_default}>
+					<SThemeP>
 						<CssBaseline />
 						<GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
 						<RefineSnackbarProvider>
 							<DevtoolsProvider>
 								<Refine
-									dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
 									notificationProvider={notificationProvider}
-									authProvider={authProvider}
 									i18nProvider={i18nProvider}
-									routerProvider={routerBindings}
-									resources={[
-										{
-											name: "blog_posts",
-											list: "/blog-posts",
-											create: "/blog-posts/create",
-											edit: "/blog-posts/edit/:id",
-											show: "/blog-posts/show/:id",
-											meta: {
-												canDelete: true,
+									options={{
+										projectId: app_name,
+										syncWithLocation: true,
+										// warnWhenUnsavedChanges: true,
+										// useNewQueryKeys: true,
+										reactQuery: {
+											clientConfig: {
+												defaultOptions: {
+													queries: {
+														retry: 0,
+														refetchOnWindowFocus: false,
+														keepPreviousData: false,
+													},
+													mutations: {
+														retry: 0,
+													},
+												},
 											},
 										},
-									]}
-									options={{
-										syncWithLocation: true,
-										warnWhenUnsavedChanges: true,
-										useNewQueryKeys: true,
-										projectId: "lx66W1-tti9qF-8830Nb",
 									}}
+									routerProvider={routerBindings}
+									dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
+									authProvider={authProvider}
+									resources={s_nav}
 								>
 									<DocumentTitleHandler />
 									<RefineKbar />
@@ -112,8 +124,8 @@ function SApp() {
 								</Refine>
 							</DevtoolsProvider>
 						</RefineSnackbarProvider>
-					</SThemeV>
-				</SDefaultV>
+					</SThemeP>
+				</SDefaultP>
 			</RefineKbarProvider>
 		</BrowserRouter>
 	);

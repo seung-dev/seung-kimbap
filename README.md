@@ -227,7 +227,14 @@ const root = createRoot(container);
 $ npm run loc
 ```
 
-##### 07. add seung
+##### 07. add external library
+
+```console
+$ npm install crypto-js
+$ npm install @types/crypto-js
+```
+
+##### 08. add seung
 
 ```console
 $ mkdir -p src/seung/types
