@@ -1,9 +1,8 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 
-import "@/config/filters/SLocale";
-
-import SApp from "@app/SApp";
+import SApp from "./app/SApp";
+import "./app/config/filters/SI18n";
 
 const container = document.getElementById("root") as HTMLElement;
 

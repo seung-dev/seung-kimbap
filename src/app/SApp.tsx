@@ -6,22 +6,21 @@ import { DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 import { ErrorComponent, RefineSnackbarProvider, ThemedLayoutV2, ThemedTitleV2, notificationProvider } from "@refinedev/mui";
 import routerBindings, { CatchAllNavigate, DocumentTitleHandler, NavigateToResource } from "@refinedev/react-router-v6";
-import dataProvider from "@refinedev/simple-rest";
 
 import CssBaseline from "@mui/material/CssBaseline";
 import GlobalStyles from "@mui/material/GlobalStyles";
 
-import { authProvider } from "@/authProvider";
-import { AppIcon } from "@/components/app-icon";
 import { Header } from "@/components/header";
-import { SDefaultP, SThemeP } from "@/config";
+import { SAuthP, SAxios, SDataP, SDefaultP, SThemeP, STranslationP } from "@/config";
 import { BlogPostCreate, BlogPostEdit, BlogPostList, BlogPostShow } from "@/pages/blog-posts";
 import { ForgotPassword } from "@/pages/forgotPassword";
 import { Login } from "@/pages/login";
 import { Register } from "@/pages/register";
 
+import { AppLogoV } from "@app/public";
+
 import { s_default } from "./SDefault";
-import { s_nav } from "./SNav";
+import { s_nav } from "./SRoutes";
 
 function SApp() {
 	const run_mode = import.meta.env.MODE;
@@ -31,13 +30,7 @@ function SApp() {
 	const storage_profile_name = import.meta.env.VITE_STORAGE_PROFILE_NAME;
 	const signin_path = import.meta.env.VITE_SIGNIN_PATH;
 
-	const { t, i18n } = useTranslation();
-
-	const i18nProvider = {
-		translate: (key: string, params: object) => t(key, params),
-		changeLocale: (lang: string) => i18n.changeLanguage(lang),
-		getLocale: () => i18n.language,
-	};
+	const { t: translate, i18n } = useTranslation();
 
 	return (
 		<BrowserRouter>
@@ -50,7 +43,7 @@ function SApp() {
 							<DevtoolsProvider>
 								<Refine
 									notificationProvider={notificationProvider}
-									i18nProvider={i18nProvider}
+									i18nProvider={STranslationP(translate, i18n)}
 									options={{
 										projectId: app_name,
 										syncWithLocation: true,
@@ -72,8 +65,16 @@ function SApp() {
 										},
 									}}
 									routerProvider={routerBindings}
-									dataProvider={dataProvider("https://api.fake-rest.refine.dev")}
-									authProvider={authProvider}
+									dataProvider={SDataP({
+										host: proxy_url,
+										http_client: SAxios,
+									})}
+									authProvider={SAuthP({
+										translate: translate,
+										http_client: SAxios,
+										signin_path: signin_path,
+										storage_profile_name: storage_profile_name,
+									})}
 									resources={s_nav}
 								>
 									<DocumentTitleHandler />
@@ -91,7 +92,7 @@ function SApp() {
 															<ThemedTitleV2
 																collapsed={collapsed}
 																text="refine Project"
-																icon={<AppIcon />}
+																icon={<AppLogoV />}
 															/>
 														)}
 													>

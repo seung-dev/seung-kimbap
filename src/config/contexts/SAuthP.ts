@@ -1,10 +1,8 @@
-import { seung } from "@seung/core";
-
 import { AxiosInstance } from "axios";
 
 import { AuthBindings } from "@refinedev/core";
 
-import { s_axios } from "@/config";
+import { seung } from "@/seung/core";
 
 export interface AppProfileT {
 	id: number;
@@ -15,23 +13,29 @@ export interface AppProfileT {
 	avatar?: string;
 }
 
-export const s_auth_provider = (
-	axios: AxiosInstance = s_axios,
-	translate: (key: string, default_value?: string | undefined) => string,
-	storage_profile_name: string = "profile",
-	signin_path: string = "/sign/in",
-): AuthBindings => ({
+interface SAuthT {
+	translate: (key: string, default_value?: string | undefined) => string;
+	http_client: AxiosInstance;
+	signin_path?: string;
+	storage_profile_name?: string;
+}
+export const SAuthP = ({
+	translate,
+	http_client,
+	signin_path = "/sign/in",
+	storage_profile_name = "profile",
+}: SAuthT): AuthBindings => ({
 	login: async ({ username, password }) => {
 		try {
 			while (true) {
-				const response = await axios.post("/rest/sign/in/username", {
+				const response = await http_client.post("/rest/sign/in/username", {
 					username: username,
 					password: seung.encode_hex(seung.sha256(password)),
 				});
 				if (response.data.error_code !== "S000") {
 					break;
 				}
-				const profile = await axios.get("/rest/user/profile");
+				const profile = await http_client.get("/rest/user/profile");
 				if (profile.data.error_code === "S000") {
 					localStorage.setItem(
 						storage_profile_name,
@@ -70,7 +74,7 @@ export const s_auth_provider = (
 	logout: async () => {
 		localStorage.removeItem(storage_profile_name);
 		try {
-			await axios.get("/rest/sign/out");
+			await http_client.get("/rest/sign/out");
 		} catch (error) {}
 		return {
 			success: true,

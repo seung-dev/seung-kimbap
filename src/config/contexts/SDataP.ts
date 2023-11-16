@@ -2,43 +2,40 @@ import { AxiosInstance } from "axios";
 
 import { DataProvider } from "@refinedev/core";
 
-import { app_axios } from "@/config";
-
-const app_data_provider = (
-	apiUrl: string,
-	httpClient: AxiosInstance = app_axios,
-): Omit<Required<DataProvider>, "createMany" | "updateMany" | "deleteMany"> => ({
+interface SDataT {
+	host: string;
+	http_client: AxiosInstance;
+}
+export const SDataP = ({
+	host,
+	http_client,
+}: SDataT): Omit<Required<DataProvider>, "createMany" | "updateMany" | "deleteMany"> => ({
 	getList: async ({ resource, pagination, filters, sorters, meta }) => {
 		return {
 			data: [],
 			total: 0,
 		};
 	},
-
 	getMany: async ({ resource, ids, meta }) => {
 		return {
 			data: {} as any,
 		};
 	},
-
 	create: async ({ resource, variables, meta }) => {
 		return {
 			data: {} as any,
 		};
 	},
-
 	update: async ({ resource, id, variables, meta }) => {
 		return {
 			data: {} as any,
 		};
 	},
-
 	getOne: async ({ resource, id, meta }) => {
 		return {
 			data: {} as any,
 		};
 	},
-
 	deleteOne: async ({ resource, id, variables, meta }) => {
 		return {
 			data: {} as any,
@@ -46,19 +43,18 @@ const app_data_provider = (
 	},
 
 	getApiUrl: () => {
-		return apiUrl;
+		return host;
 	},
-
 	custom: async ({ url, method, filters, sorters, payload, query, headers }) => {
 		let response;
 		switch (method) {
 			case "post":
-				response = await httpClient[method](url, payload, {
+				response = await http_client[method](url, payload, {
 					headers,
 				});
 				break;
 			default:
-				response = await httpClient[method](url, {
+				response = await http_client[method](url, {
 					headers,
 				});
 				break;
@@ -67,5 +63,3 @@ const app_data_provider = (
 		return Promise.resolve({ data });
 	},
 });
-
-export { app_data_provider };

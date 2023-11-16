@@ -2,7 +2,7 @@ import { version } from "../../";
 import * as SFormat from "./SFormat";
 import * as SSecurity from "./SSecurity";
 
-export class STool {
+export class Seung {
 	constructor() {}
 
 	static version = (): string => version;

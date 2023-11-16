@@ -2,11 +2,11 @@ import axios from "axios";
 
 import { HttpError } from "@refinedev/core";
 
-const s_axios = axios.create();
+const SAxios = axios.create();
 
-s_axios.defaults.withCredentials = true;
+SAxios.defaults.withCredentials = true;
 
-s_axios.interceptors.response.use(
+SAxios.interceptors.response.use(
 	(response) => {
 		return response;
 	},
@@ -20,4 +20,4 @@ s_axios.interceptors.response.use(
 	},
 );
 
-export { s_axios };
+export { SAxios };
